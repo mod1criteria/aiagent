@@ -11,7 +11,8 @@ import logging
 import pyautogui
 
 from app.config import load_settings
-from app.executor.manual_smoke import run_manual_smoke
+from app.executor.manual_smoke import close_notepad_actions, default_smoke_actions
+from app.runner import Runner
 from app.storage.logger import setup_logging
 from app.storage.screenshot_store import save_screenshot
 
@@ -35,7 +36,13 @@ def main() -> None:
     save_screenshot(shot_before, settings.screenshot_dir, prefix="before_smoke")
 
     try:
-        run_manual_smoke(settings)
+        runner = Runner()
+        result = runner.run_notepad_scenario(
+            settings,
+            actions=default_smoke_actions(settings),
+            close_actions=close_notepad_actions(settings),
+        )
+        logger.info("RunResult: %s", result)
     finally:
         shot_after = pyautogui.screenshot()
         save_screenshot(shot_after, settings.screenshot_dir, prefix="after_smoke")

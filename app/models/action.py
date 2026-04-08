@@ -34,7 +34,7 @@ class ScrollAction(BaseModel):
 
 class TypeAction(BaseModel):
     type: Literal["type"] = "type"
-    text: str = Field(..., min_length=1, max_length=2000, description="입력할 문구 (MVP 길이 제한)")
+    text: str = Field(..., min_length=1, max_length=500, description="입력할 문구 (MVP 길이 제한)")
 
 
 class HotkeyAction(BaseModel):
